@@ -24,12 +24,17 @@ $id = $_POST["id"];
 $nome = $_POST["nome"];
 $cpf = $_POST["cpf"];
 $botao = $_POST["botao"];
+$pesquisa = $_POST["pesquisa"];
 
 if(empty($botao)){
 
 }else if($botao == "Cadastrar"){
     $sql = "INSERT INTO funcionarios 
     (id, nome, cpf) VALUES('','$nome', '$cpf')";
+}else if($botao == "Excluir"){
+    $sql = "DELETE FROM funcionarios WHERE id = '$id'";
+}else if($botao == "Recuperar"){
+    $sql_mostra_cad = "SELECT * FROM funcionarios WHERE nome like '%$pesquisa%'"; // %% busca por partes de um nome
 }
 
 //aqui vou tratar erros nas operações C.E.R.A
@@ -71,7 +76,10 @@ if(!empty($selecionado)){
         <label>CPF</label>
         <input type ="text" name = "cpf" value="<?php echo $cpf; ?>" /><br />
         <input type ="submit" name = "botao" value = "Cadastrar" />
-        <input type ="reset" name = "botao" value = "cancelar" />
+        <input type ="submit" name = "botao" value = "Excluir" />
+        <br/>
+        <input type="text" name ="pesquisa" /> <input type="submit" name="botao" value="Recuperar"/>
+       
     </form>
     <table>
         <tr>
@@ -79,7 +87,10 @@ if(!empty($selecionado)){
             <td>CPF</td>
         </tr>
         <?php
-        $sql_mostra_cad = "SELECT * FROM funcionarios ORDER BY id desc limit 0,10";
+        if(empty($pesquisa)){
+            $sql_mostra_cad = "SELECT * FROM funcionarios ORDER BY id desc limit 0,10";
+        }
+        
         $resultado = mysqli_query($conexao, $sql_mostra_cad);
 
         while($linha = mysqli_fetch_assoc($resultado)){
