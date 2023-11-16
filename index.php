@@ -1,3 +1,4 @@
+
 <?php
 
 /*aqui vamos conectar 
@@ -35,8 +36,9 @@ if(empty($botao)){
     $sql = "DELETE FROM funcionarios WHERE id = '$id'";
 }else if($botao == "Recuperar"){
     $sql_mostra_cad = "SELECT * FROM funcionarios WHERE nome like '%$pesquisa%'"; // %% busca por partes de um nome
+}else if($botao == "Alterar"){
+    $sql = "UPDATE funcionarios SET nome = '$nome', cpf = '$cpf' WHERE id = '$id'";
 }
-
 //aqui vou tratar erros nas operações C.E.R.A
 if(!empty($sql)){
     if(mysqli_query($conexao, $sql)){
@@ -66,20 +68,55 @@ if(!empty($selecionado)){
 
 
 ?>
-<html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <title>System CERA</title>  
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+        <style>
+        body{
+            font-family: 'Montserrat', 'sans-serif';
+            background-color: #EFE6DD;
+        }
+        .sistema{
+            font-weight: bold;
+            font-size: 22px;
+            text-decoration: none;
+            color: #231F20;
+        }
+        .cadastro{
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            color: #231F20;
+        }
+        .selecionar{
+            color: #BB4430;
+        }
+    </style>
+    </head>
     <body>
-    <form name = "func" method = "post" >
-        <label>ID</label>
-        <input type ="text" name = "id" value="<?php echo $id; ?>"/><br />
-        <label>Nome</label>
+        <h1 class="sistema">Sistema CERA</h1>
+        <h2 class="cadastro">Cadastro de funcionários</h2>
+    <form name = "func" method = "post" class="form">
+        <label class="idlabel">ID</label>
+        <input type ="text" name = "idi" value="<?php echo $id; ?>" disabled /><br />
+        <input type ="hidden" name = "id" value="<?php echo $id; ?>"/>
+        <label class="nomelabel">NOME</label>
         <input type ="text" name = "nome" value="<?php echo $nome; ?>"/><br />
-        <label>CPF</label>
+        <label class="cpflabel">CPF</label>
         <input type ="text" name = "cpf" value="<?php echo $cpf; ?>" /><br />
-        <input type ="submit" name = "botao" value = "Cadastrar" />
-        <input type ="submit" name = "botao" value = "Excluir" />
+
+        <div class="botao">
+        <input type ="submit" name = "botao" value = "Cadastrar" class="botaocad"/>
+        <input type ="submit" name = "botao" value = "Excluir" class="botaoexc"/>
         <br/>
-        <input type="text" name ="pesquisa" /> <input type="submit" name="botao" value="Recuperar"/>
-       
+        </div>
+
+        <input type="text" name ="pesquisa" /> <input type="submit" name="botao" value="Recuperar" class="botaorec"/>
+        
     </form>
     <table>
         <tr>
@@ -108,4 +145,5 @@ if(!empty($selecionado)){
         ?>
     </table>
     </body>
+
 </html>
